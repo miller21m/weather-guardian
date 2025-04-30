@@ -1,0 +1,30 @@
+.alerts-container{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    height: 100vh;
+    padding:20px;
+}
+
+
+.alert-form-container{
+    width: 40%;
+    margin: 0 auto;
+}
+
+.alerts-list-container{
+    width: 60%;
+    margin: 0 auto;
+    overflow-y: scroll;
+}
+
+@media (max-width: 767px) {
+    .alerts-container {
+      flex-direction: column;
+    }
+  
+    .alert-form-container,
+    .alerts-list-container {
+      width: 100%;
+    }
+  }

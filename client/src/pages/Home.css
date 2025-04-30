@@ -1,0 +1,8 @@
+.home-page-container{
+    display: flex;
+    height: 100vh;
+}
+
+.show-location-weather{
+    margin: 0 auto;
+}

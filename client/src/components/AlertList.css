@@ -1,0 +1,9 @@
+.alerts-list-continer{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.alert-title-container{
+    display: flex;
+    justify-content:space-between;
+}

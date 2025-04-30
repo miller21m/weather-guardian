@@ -1,0 +1,9 @@
+.current-state-list-container{
+    display: flex;
+    height: 100vh;
+}
+
+.current-state-list{
+    width: 60%;
+    margin: 0 auto;
+}
