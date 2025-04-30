@@ -17,11 +17,22 @@ app.use('/weather', weatherRoute);
 app.use('/user',userRoute);
 app.use('/alert', alertRoute);
 
+// Serve React build (only in production)
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/build')));
+  
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+    });
+  }
+
+  const PORT = process.env.PORT || 3000;
+
 
 connectDB()
 .then(() => {
-    app.listen(3000, ()=>{
-        console.log('Server is runing on 300');
+    app.listen(PORT, ()=>{
+        console.log(`Server running on port ${PORT}`);
     });
 })
 .catch(err=>{
