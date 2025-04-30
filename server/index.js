@@ -24,8 +24,8 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static(clientBuildPath));
   
     // Wildcard route for React (v5-compatible)
-    app.get('/:path(*)', (req, res) => {
-      res.sendFile(path.join(clientBuildPath, 'index.html'));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(clientBuildPath, 'index.html'));
     });
 }
 
