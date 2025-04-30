@@ -9,10 +9,10 @@ router.use(authMiddleware.authenticateToken);
 router.post('/' ,alertController.createAlert);
 router.get('/' , alertController.getAlerts);
 
-router.delete('/:id', alertController.deleteAlert);
-
 router.patch('/:id/activate', alertController.activateAlert);
 router.patch('/:id/deactivate', alertController.deactivateAlert);
+
+router.delete('/:id', alertController.deleteAlert);
 
 
 
