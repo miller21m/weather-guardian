@@ -9,10 +9,12 @@ function Alerts() {
 
     const [alerts, setAlerts] = useState([]);
   
+    // Fetch alerts when component mounts
     useEffect(() => {
       fetchAlerts();
     }, []);
   
+    // Get all alerts from the backend
     const fetchAlerts = async () => {
       try {
         const data = await api.get('/alert');
@@ -22,9 +24,9 @@ function Alerts() {
       }
     };
 
-    const addNewAlert = async (e) =>{
+    // Add new alert and refresh the list
+    const addNewAlert = async (alertData) =>{
         try{
-            let alertData = e;
             await api.post('/alert', alertData);
             fetchAlerts();
         }catch(error){
@@ -32,9 +34,9 @@ function Alerts() {
         }
     };
 
-    const deleteAlert = async (e) =>{
+    // Delete alert by ID and refresh the list
+    const deleteAlert = async (alertId) =>{
         try{
-            let alertId = e;
             await api.delete(`/alert/${alertId}`);
             fetchAlerts();
         }catch(error){

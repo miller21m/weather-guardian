@@ -1,4 +1,3 @@
-// File: src/pages/CurrentState.jsx
 import { useEffect, useState } from 'react';
 import { api } from '../utils/api';
 import {
@@ -18,6 +17,7 @@ function CurrentStateList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Fetch alerts and filter for those triggered in the last 24 hours
     const fetchTriggeredAlerts = async () => {
       try {
         const data = await api.get('/alert');
@@ -45,6 +45,7 @@ function CurrentStateList() {
     );
   }
 
+  // Render triggered alerts from the last 24h
   const showListOfAlerts = () =>{
     return(
         alerts.map((alert) => (

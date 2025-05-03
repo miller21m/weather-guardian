@@ -17,15 +17,22 @@ function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  
+  const { login } = useAuth();// Context-based login handler
   const navigate = useNavigate();
 
+  // Handle login form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
+      // Authenticate user via API
       const { token, user } = await api.post('/user/login', { email, password });
+      
+      // Store token and user context
       login(user, token);
+
+      // Navigate to alerts page after successful login
       navigate('/alerts');
     } catch (err) {
       console.log('Login error:', err);

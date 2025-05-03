@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 
 function AlertForm({ addAlert }) {
-  const [locationMode, setLocationMode] = useState('name'); // name | coordinates
+  const [locationMode, setLocationMode] = useState('name'); // Choose between location name or coordinates
   const [locationName, setLocationName] = useState('');
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
@@ -29,10 +29,11 @@ function AlertForm({ addAlert }) {
 
     const alertData = {
       parameter,
-      threshold: Number(threshold),
+      threshold: Number(threshold), // Convert threshold to number
       description,
     };
 
+    // Add either location name or coordinates based on selected mode
     if (locationMode === 'name') {
       alertData.locationName = locationName;
     } else {
@@ -44,7 +45,8 @@ function AlertForm({ addAlert }) {
 
     try {
       addAlert(alertData);
-      // Reset fields
+      
+      // Reset form fields after successful submission
       setLocationName('');
       setLatitude('');
       setLongitude('');
@@ -75,6 +77,7 @@ function AlertForm({ addAlert }) {
             <ToggleButton value="coordinates">By Coordinates</ToggleButton>
           </ToggleButtonGroup>
 
+          {/* Conditional input based on location mode */}
           {locationMode === 'name' ? (
             <TextField
               label="Location Name"

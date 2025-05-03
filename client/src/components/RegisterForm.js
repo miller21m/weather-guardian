@@ -13,17 +13,25 @@ import {
 } from '@mui/material';
 
 function RegisterForm() {
+  
+  // Form state
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  
+  const navigate = useNavigate();// Used to redirect after successful registration
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    
     try {
+      // Send user data to the backend to create an account
       await api.post('/user/register', { username, email, password });
+
+      // Redirect to login page after successful registration
       navigate('/login');
     } catch (err) {
       console.log('Register error:', err);

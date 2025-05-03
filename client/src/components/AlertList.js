@@ -1,4 +1,3 @@
-
 import NoAlertsImage from '../assets/no-alerts.svg';
 
 import {Box, Card,CardActions,CardContent,Typography,Button,Stack,Divider} from '@mui/material';
@@ -7,6 +6,7 @@ import './AlertList.css';
 
 function AlertList({alerts, onDeleteAlert}) {
 
+  // Render the list of alerts as MUI Cards
     const alertsList = () =>{
         return(
             alerts.map((alert)=>{
@@ -15,20 +15,23 @@ function AlertList({alerts, onDeleteAlert}) {
                       <CardContent>
                         <Typography variant="h6" component="div" gutterBottom className='alert-title-container'>
                             <div>
+                              {/* Display location name or fallback to coordinates */}
                                 {alert.locationName || `${alert.coordinates?.lat}, ${alert.coordinates?.lon}`}
                                 
+                                {/* Show last triggered time if exists */}
                                 {alert.lastTriggeredAt && (
                                     <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: 'gray' }}>
-                                    {/* <AccessTimeIcon fontSize="small" /> */}
                                     Last triggered: {new Date(alert.lastTriggeredAt).toLocaleString()}
                                     </Typography>
                                 )}
                             </div>
+                            {/* Show alert status suported only in the server no ui */}
                             <div>{alert.active ? 'Active' : 'Paused'}</div>
                         </Typography>
               
                         <Divider sx={{ my: 1 }} />
-              
+                        
+                        {/* Alert details */}
                         <Stack spacing={1}>
                           <Typography variant="body2">
                             <strong>Parameter:</strong> {alert.parameter}
@@ -56,6 +59,7 @@ function AlertList({alerts, onDeleteAlert}) {
         )
     };
 
+    // Wrapper for calling parent delete function
     const deleteAlert = (alertId) =>{
         onDeleteAlert(alertId)
     }

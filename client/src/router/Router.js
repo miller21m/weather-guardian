@@ -12,11 +12,13 @@ import Navbar from '../components/Navbar';
 
 import './Router.css';
 
+// Wrapper to restrict access to authenticated users only
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
 
   if (loading) return <div>Loading...</div>;
 
+  // If user is not logged in, redirect to login page
   return user ? (
     <div className='secure-route-container'>
         {children}
@@ -29,6 +31,7 @@ function AppRouter() {
     <Router>
         <Navbar />
       <Routes>
+        {/* Protected route: Home */}
         <Route path="/" element={
             <PrivateRoute>
                 <Home />
@@ -37,12 +40,15 @@ function AppRouter() {
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        {/* Protected route: Alerts */}
         <Route path="/alerts" element={
             <PrivateRoute>
                 <Alerts />
             </PrivateRoute>
         } />
 
+        {/* Protected route: Current weather state */}
         <Route path="/currentState" element={
             <PrivateRoute>
                 <CurrentState />

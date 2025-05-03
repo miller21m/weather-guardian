@@ -24,6 +24,7 @@ function CurrentWeather() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  // Fetch weather using a city name
   const fetchWeatherByName = async (name) => {
     try {
       setLoading(true);
@@ -38,6 +39,7 @@ function CurrentWeather() {
     }
   };
 
+  // Fetch weather using coordinates (from geolocation)
   const fetchWeatherByCoords = async (lat, lon) => {
     try {
       const data = await api.get(`/weather?lat=${lat}&lon=${lon}`);
@@ -52,6 +54,7 @@ function CurrentWeather() {
   };
 
   useEffect(() => {
+    // Attempt to get user's location on mount; fallback to default city
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const { latitude, longitude } = pos.coords;
@@ -63,6 +66,7 @@ function CurrentWeather() {
     );
   }, []);
 
+  // Handle manual city search
   const handleLocationSubmit = (e) => {
     e.preventDefault();
     if (customLocation) {
@@ -71,6 +75,7 @@ function CurrentWeather() {
     }
   };
 
+  // Loading state UI
   if (loading) {
     return (
       <Box textAlign="center" mt={4}>
@@ -82,6 +87,7 @@ function CurrentWeather() {
     );
   }
 
+  // Error state UI
   if (error) {
     return (
       <Paper sx={{ padding: 2, mt: 2, backgroundColor: '#fff3f3' }}>
@@ -90,6 +96,7 @@ function CurrentWeather() {
     );
   }
 
+  // Main content UI
   return (
     <Paper sx={{ padding: 3, mt: 3, backgroundColor: '#f9f9f9', borderRadius: 2 }} elevation={4}>
       <Box display="flex" alignItems="center" gap={1} mb={2}>
@@ -99,6 +106,7 @@ function CurrentWeather() {
         </Typography>
       </Box>
 
+      {/* Weather details */}
       <Stack spacing={1} mt={2}>
         <Typography variant="body1">
           <ThermostatIcon sx={{ verticalAlign: 'middle', mr: 1 }} /> 
@@ -114,6 +122,7 @@ function CurrentWeather() {
         </Typography>
       </Stack>
 
+      {/* Manual city search form */}
       <Box component="form" onSubmit={handleLocationSubmit} mt={4}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <TextField

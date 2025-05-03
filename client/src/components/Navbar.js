@@ -16,16 +16,17 @@ import { useAuth } from '../context/AuthContext';
 
 
 function Navbar() {
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuth();// Get user and logout function from auth context
   const navigate = useNavigate();
-  const isMobile = useMediaQuery('(max-width:768px)');
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const isMobile = useMediaQuery('(max-width:768px)');// Check if device is mobile
+  const [drawerOpen, setDrawerOpen] = useState(false);// State for mobile drawer
 
   const handleLogout = () => {
-    logout();
-    navigate('/login');
+    logout();                   // Clear user session
+    navigate('/login');         // Redirect to login after logout
   };
 
+  // Navigation items depending on authentication status
   const navItems = user
     ? [
         { label: 'Home', path: '/' },
@@ -38,6 +39,8 @@ function Navbar() {
         { label: 'Register', path: '/register' }
       ];
 
+  
+  // Toggle mobile drawer open/close
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
   };
