@@ -1,8 +1,7 @@
 const cron = require('node-cron');
 const { evaluateAlerts } = require('./alertChecker');
 
-// Run every 10 minutes
-cron.schedule('*/10 * * * *', async () => {
-  console.log('Running scheduled alert evaluation...');
+// Schedule the alert evaluation to run every 5 minutes
+cron.schedule('*/5 * * * *', async () => {
   await evaluateAlerts();
 });

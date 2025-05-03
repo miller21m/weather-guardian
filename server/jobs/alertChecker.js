@@ -2,18 +2,22 @@ const Alert = require('../models/alert');
 const weatherService = require('../services/weather');
 const emailService = require('../services/email'); 
 
+// Periodically called to check if any active alerts should be triggered
 exports.evaluateAlerts = async () => {
     try {
+
+      // Fetch all active alerts and populate user's email and username
       const activeAlerts = await Alert.find({ active: true }).populate('user', 'email username');
   
       for (const alert of activeAlerts) {
-        // שלוף את מזג האוויר לפי קואורדינטות או שם
+        // Fetch current weather data for the alert's location
         const weatherData = await weatherService.fetchWeather({
           lat: alert.coordinates?.lat,
           lon: alert.coordinates?.lon,
           city: alert.locationName
         });
-  
+        
+        // Extract the relevant weather parameter value (e.g., temperature, wind speed)
         const parameterValue = getParameterValue(weatherData, alert.parameter);
   
         if (parameterValue === null) {
@@ -21,15 +25,17 @@ exports.evaluateAlerts = async () => {
           continue;
         }
 
+        // Check if the weather condition meets the user's threshold
         const isConditionMet = parameterValue > alert.threshold;
 
         if (isConditionMet) {
-          alert.lastTriggeredAt = new Date(); // עדכן זמן עכשיו
+          // Update lastTriggeredAt timestamp
+          alert.lastTriggeredAt = new Date();
           await alert.save();
-          console.log(`Alert ${alert._id} was triggered at ${alert.lastTriggeredAt}`);
 
           const userEmail = alert.user?.email;
 
+          // Send email notification to the user if email exists
           if (userEmail) {
             await emailService.sendEmail({
               to: userEmail,
@@ -45,8 +51,6 @@ exports.evaluateAlerts = async () => {
                 <p>Stay safe!<br />– Your Weather Alert System</p>
               `
             });
-  
-            console.log(`Email sent to ${userEmail}`);
           }
         }
       }
@@ -55,7 +59,7 @@ exports.evaluateAlerts = async () => {
     }
   };
   
-  // פונקציה לשליפת ערך מתאים ממזג האוויר
+  // Helper to extract the specific parameter value from the weather data
   function getParameterValue(weatherData, parameter) {
     switch (parameter) {
       case 'temperature':

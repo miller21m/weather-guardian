@@ -14,6 +14,8 @@ const alertRoute = require('./routes/alert');
 
 app.use(cors());
 app.use(express.json());
+
+//Custom server routes 
 app.use('/weather', weatherRoute);
 app.use('/user',userRoute);
 app.use('/alert', alertRoute);
@@ -23,7 +25,6 @@ if (process.env.NODE_ENV === 'production') {
     const clientBuildPath = path.join(__dirname, '../client/build');
     app.use(express.static(clientBuildPath));
   
-    // Wildcard route for React (v5-compatible)
     app.get('*', (req, res) => {
         res.sendFile(path.join(clientBuildPath, 'index.html'));
     });

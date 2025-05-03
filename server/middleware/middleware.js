@@ -1,9 +1,11 @@
 const jwt = require('jsonwebtoken');
 
+// Middleware to verify JWT and attach user info to the request
 exports.authenticateToken = (req, res, next) => {
 
   const authHeader = req.headers['authorization'];
 
+  // Extract token from "Bearer <token>" format
   const token = authHeader && authHeader.split(' ')[1]; // Bearer <token>
 
   if (!token){
@@ -11,6 +13,7 @@ exports.authenticateToken = (req, res, next) => {
   }
 
   try {
+    // Verify token and attach decoded user info to request object
     const verified = jwt.verify(token, process.env.JWT_SECRET);
     req.user = verified;
     next();

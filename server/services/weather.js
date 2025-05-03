@@ -3,12 +3,12 @@ const axios = require('axios');
 const BASE_URL = 'https://api.tomorrow.io/v4/weather/realtime';
 const API_KEY = process.env.TOMORROW_API_KEY;
 
-// Return the weather in loaction based on lat lon or city
+// Fetch current weather based on latitude/longitude or city name
 exports.fetchWeather = async ({lat, lon, city})=>{
     try{
         let location;
-        console.log('City', city);
         
+        // Determine the location format for the API: either city or lat,lon
         if(city){
             location = city;
         } else if (lat && lon) {
@@ -16,10 +16,10 @@ exports.fetchWeather = async ({lat, lon, city})=>{
         }
 
         const response = await axios.get(`${BASE_URL}?location=${location}&apikey=${API_KEY}`);
-        console.log('Response', response.data);
         const data = response.data;
 
 
+        // Return a simplified weather object with selected parameters
         return {
             temperature: data.data.values.temperature,
             windSpeed: data.data.values.windSpeed,
@@ -31,8 +31,7 @@ exports.fetchWeather = async ({lat, lon, city})=>{
         };
         
     }catch(error){
-        console.log(error);
-        
+        // Provide clear error message from the API response or a default fallback
         throw new Error(error.response?.data || 'Failed to fetch weather data');
     }
 };

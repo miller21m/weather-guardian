@@ -2,16 +2,19 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// Register a new user
 exports.register = async (req, res) => {
     try {
 
         const { username, email, password, phone } = req.body;
         const existingUser = await User.findOne({ email });
         
+        // Prevent duplicate registration with same email
         if (existingUser){
             return res.status(400).json({ error: 'Email already in use' });
         } 
   
+      // Securely hash password before saving
       const hashedPassword = await bcrypt.hash(password, 10);
   
       const newUser = new User({ username, email, password: hashedPassword });
@@ -23,6 +26,7 @@ exports.register = async (req, res) => {
     }
   };
   
+  // Authenticate user and return JWT token
   exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -38,6 +42,7 @@ exports.register = async (req, res) => {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
   
+        // Generate JWT token with user ID
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '2h' });
   
         res.json({ token, user: { id: user._id, username: user.username, email: user.email } });
@@ -47,6 +52,7 @@ exports.register = async (req, res) => {
     }
   };
 
+  // Fetch user data by ID, excluding the password field
   exports.getUserById = async(req,res)=>{
     try {
       const userId = req.params.id;
