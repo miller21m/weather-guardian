@@ -1,4 +1,4 @@
 #Ignore env files
 .env
 client/.env
-server/.env
+server/.env.coveralls.yml
